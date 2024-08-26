@@ -31,9 +31,17 @@ public class TodoService {
     }
 
 
-    public Todo getTodo(Long todoId) {
+    public ResponseDto getTodo(Long todoId) {
         Todo todo = todoRepository.findById(todoId).orElseThrow(() -> new NullPointerException("일정 없음"));
-        return todo;
+        ResponseDto responseDto = new ResponseDto(
+                todo.getId(),
+                todo.getManagerName(),
+                todo.getTitle(),
+                todo.getContent(),
+                todo.getCreatedAt(),
+                todo.getModifiedAt()
+        );
+        return responseDto;
     }
 
     public ResponseDto update(Long todoId, RequestDto dto) {

@@ -1,5 +1,6 @@
 package com.sparta.springassignment.repository;
 
+
 import com.sparta.springassignment.entity.Todo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
