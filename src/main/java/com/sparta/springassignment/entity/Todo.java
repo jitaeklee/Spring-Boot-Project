@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Entity
 @NoArgsConstructor
@@ -15,6 +18,14 @@ public class Todo extends Timestamped {
     private String managerName;
     private String title;
     private String content;
+    @OneToMany(mappedBy = "todo", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Comment> commentList = new ArrayList<>();
+
+    public void addCommentList(Comment comment) {
+        this.commentList.add(comment);
+        comment.setTodo(this);// 외래 키(연관 관계) 설정
+    }
+
 
     public void update (String managerName, String title, String content) {
         if (managerName != null) {

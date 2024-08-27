@@ -6,7 +6,13 @@ import com.sparta.springassignment.dto.ResponseDto;
 import com.sparta.springassignment.entity.Todo;
 import com.sparta.springassignment.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class TodoService {
@@ -61,4 +67,25 @@ public class TodoService {
                 todo.getModifiedAt()
         );
     }
+
+
+    public ResponseDto delete(Long todoId) {
+        Todo todo = todoRepository.findById(todoId).orElse(null);
+        todoRepository.delete(todo);
+        return new ResponseDto(
+                todo.getId(),
+                todo.getManagerName(),
+                todo.getTitle(),
+                todo.getContent(),
+                todo.getCreatedAt(),
+                todo.getModifiedAt()
+        );
+    }
 }
+
+
+
+
+
+
+

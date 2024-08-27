@@ -3,13 +3,11 @@ package com.sparta.springassignment.entity;
 
 import com.sparta.springassignment.dto.CommentRequestDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Getter
+@Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
@@ -47,3 +45,5 @@ public class Comment extends Timestamped {
             this.body = dto.getBody();
     }
 }
+
+
