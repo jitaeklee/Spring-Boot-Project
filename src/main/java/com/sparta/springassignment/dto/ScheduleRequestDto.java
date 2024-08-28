@@ -1,14 +1,15 @@
 package com.sparta.springassignment.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class RequestDto {
+public class ScheduleRequestDto {
 
-    private String title;
-    private String content;
+    private Long todoId;
+    private Long userId;
 
 }
 

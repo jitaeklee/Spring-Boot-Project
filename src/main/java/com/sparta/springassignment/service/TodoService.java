@@ -3,32 +3,38 @@ package com.sparta.springassignment.service;
 
 import com.sparta.springassignment.dto.RequestDto;
 import com.sparta.springassignment.dto.ResponseDto;
+import com.sparta.springassignment.entity.Schedule;
 import com.sparta.springassignment.entity.Todo;
+import com.sparta.springassignment.entity.User;
+import com.sparta.springassignment.repository.ScheduleRepository;
 import com.sparta.springassignment.repository.TodoRepository;
+import com.sparta.springassignment.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class TodoService {
     @Autowired
     private TodoRepository todoRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ScheduleRepository scheduleRepository;
 
-    public ResponseDto create(RequestDto dto) {
-        Todo todo = new Todo(
-                dto.getManagerName(),
-                dto.getTitle(),
-                dto.getContent()
-        );
+    public ResponseDto create(Long userId, RequestDto dto) {
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new IllegalArgumentException("대상 유저가 없습니다."));
+        Todo todo = Todo.createTodo(dto, user);
         Todo savedTodo = todoRepository.save(todo);
+
+        Schedule schedule = new Schedule();
+        schedule.setUser(user); // 외래 키(연관 관계) 설정
+        schedule.setTodo(todo); // 외래 키(연관 관계) 설정
+        scheduleRepository.save(schedule);
+
         return new ResponseDto(
                 savedTodo.getId(),
-                savedTodo.getManagerName(),
+                savedTodo.getUser().getId(),
                 savedTodo.getTitle(),
                 savedTodo.getContent(),
                 savedTodo.getCreatedAt(),
@@ -38,10 +44,10 @@ public class TodoService {
 
 
     public ResponseDto getTodo(Long todoId) {
-        Todo todo = todoRepository.findById(todoId).orElseThrow(() -> new NullPointerException("일정 없음"));
+        Todo todo = todoRepository.findById(todoId).orElseThrow(() -> new NullPointerException("대상 일정이 없습니다."));
         ResponseDto responseDto = new ResponseDto(
                 todo.getId(),
-                todo.getManagerName(),
+                todo.getUser().getId(),
                 todo.getTitle(),
                 todo.getContent(),
                 todo.getCreatedAt(),
@@ -51,16 +57,15 @@ public class TodoService {
     }
 
     public ResponseDto update(Long todoId, RequestDto dto) {
-        Todo todo = todoRepository.findById(todoId).orElseThrow(() -> new NullPointerException("일정 없음"));
+        Todo todo = todoRepository.findById(todoId).orElseThrow(() -> new NullPointerException("대상 일정이 없습니다."));
         todo.update(
-                dto.getManagerName(),
                 dto.getTitle(),
                 dto.getContent()
         );
         todoRepository.save(todo);
         return new ResponseDto(
                 todo.getId(),
-                todo.getManagerName(),
+                todo.getUser().getId(),
                 todo.getTitle(),
                 todo.getContent(),
                 todo.getCreatedAt(),
@@ -74,7 +79,7 @@ public class TodoService {
         todoRepository.delete(todo);
         return new ResponseDto(
                 todo.getId(),
-                todo.getManagerName(),
+                todo.getUser().getId(),
                 todo.getTitle(),
                 todo.getContent(),
                 todo.getCreatedAt(),

@@ -1,48 +1,37 @@
 package com.sparta.springassignment.controller;
 
 
-import com.sparta.springassignment.dto.CommentResponseDto;
 import com.sparta.springassignment.dto.RequestDto;
 import com.sparta.springassignment.dto.ResponseDto;
-import com.sparta.springassignment.entity.Todo;
-import com.sparta.springassignment.repository.TodoRepository;
 import com.sparta.springassignment.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 public class TodoController {
     @Autowired
     private TodoService todoService;
-    @Autowired
-    private TodoRepository todoRepository;
 
-    @PostMapping("/todos")
-    public ResponseEntity<ResponseDto> create(@RequestBody RequestDto dto) {
-        ResponseDto response = todoService.create(dto);
+    @PostMapping("/users/{userId}/todos")      // 할일 생성
+    public ResponseEntity<ResponseDto> create(@PathVariable Long userId, @RequestBody RequestDto dto) {
+        ResponseDto response = todoService.create(userId, dto);
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/todos/{todoId}")
+    @GetMapping("/todos/{todoId}")      // todoId 할일 조회
     public ResponseEntity<ResponseDto> getTodo(@PathVariable Long todoId) {
         ResponseDto response = todoService.getTodo(todoId);
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/todos/{todoId}")
+    @PutMapping("/todos/{todoId}")      // todoId 할일 수정
     public ResponseEntity<ResponseDto> update(@PathVariable Long todoId, @RequestBody RequestDto dto) {
         ResponseDto response = todoService.update(todoId, dto);
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/todos/{todoId}")
+    @DeleteMapping("/todos/{todoId}")       // todoId 할일 삭제
     public ResponseEntity<ResponseDto> delete(@PathVariable Long todoId) {
     ResponseDto responseDto = todoService.delete(todoId);
         return ResponseEntity.ok(responseDto);

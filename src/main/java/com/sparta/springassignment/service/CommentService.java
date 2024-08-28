@@ -3,7 +3,6 @@ package com.sparta.springassignment.service;
 
 import com.sparta.springassignment.dto.CommentRequestDto;
 import com.sparta.springassignment.dto.CommentResponseDto;
-import com.sparta.springassignment.dto.ResponseDto;
 import com.sparta.springassignment.entity.Comment;
 import com.sparta.springassignment.entity.Todo;
 import com.sparta.springassignment.repository.CommentRepository;

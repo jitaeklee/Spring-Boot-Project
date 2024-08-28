@@ -8,7 +8,6 @@ import lombok.*;
 @Entity
 @Getter
 @Setter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class Comment extends Timestamped {
@@ -16,11 +15,9 @@ public class Comment extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "todo_id")
+    @JoinColumn(name = "todoids")
     private Todo todo;
-    @Column
     private String nickname;
-    @Column
     private String body;
 
     public static Comment createComment(CommentRequestDto dto, Todo todo) {

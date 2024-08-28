@@ -7,19 +7,16 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class ResponseDto {
+public class UserResponseDto {
 
     private Long id;
-    private Long userId;
-    private String title;
-    private String content;
+    private String managerName;
+    private String email;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
 }
-
-
-
