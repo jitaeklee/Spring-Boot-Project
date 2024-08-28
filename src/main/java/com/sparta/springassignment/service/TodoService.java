@@ -10,6 +10,9 @@ import com.sparta.springassignment.repository.ScheduleRepository;
 import com.sparta.springassignment.repository.TodoRepository;
 import com.sparta.springassignment.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -85,6 +88,18 @@ public class TodoService {
                 todo.getCreatedAt(),
                 todo.getModifiedAt()
         );
+    }
+
+    public Page<ResponseDto> getTodos(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Todo> todos = todoRepository.findAllByOrderByModifiedAtDesc(pageable);
+
+        return todos.map(todo -> new ResponseDto(
+                todo.getId(),
+                todo.getUser().getId(),
+                todo.getTitle(),
+                todo.getContent()
+        ));
     }
 }
 

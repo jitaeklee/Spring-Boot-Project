@@ -19,6 +19,13 @@ public class ResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
+    public ResponseDto(Long id, Long userId, String title, String content) {
+        this.id = id;
+        this.userId = userId;
+        this.title = title;
+        this.content = content;
+    }
+
 }
 
 

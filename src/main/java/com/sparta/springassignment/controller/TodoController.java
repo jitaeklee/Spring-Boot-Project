@@ -5,6 +5,7 @@ import com.sparta.springassignment.dto.RequestDto;
 import com.sparta.springassignment.dto.ResponseDto;
 import com.sparta.springassignment.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +20,12 @@ public class TodoController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/todos/{todoId}")      // todoId 할일 조회
-    public ResponseEntity<ResponseDto> getTodo(@PathVariable Long todoId) {
-        ResponseDto response = todoService.getTodo(todoId);
+    @GetMapping("/todos")
+    public ResponseEntity<Page<ResponseDto>> getTodos(
+            @RequestParam(defaultValue = "1", required = false) int page,
+            @RequestParam(defaultValue = "10", required = false) int size
+    ) {
+        Page<ResponseDto> response = todoService.getTodos(page, size);
         return ResponseEntity.ok(response);
     }
 
