@@ -3,6 +3,7 @@ package com.sparta.springassignment.service;
 
 import com.sparta.springassignment.dto.RequestDto;
 import com.sparta.springassignment.dto.ResponseDto;
+import com.sparta.springassignment.dto.SingleTodoResponseDto;
 import com.sparta.springassignment.entity.Schedule;
 import com.sparta.springassignment.entity.Todo;
 import com.sparta.springassignment.entity.User;
@@ -46,13 +47,15 @@ public class TodoService {
     }
 
 
-    public ResponseDto getTodo(Long todoId) {
+    public SingleTodoResponseDto getTodo(Long todoId) {
         Todo todo = todoRepository.findById(todoId).orElseThrow(() -> new NullPointerException("대상 일정이 없습니다."));
-        ResponseDto responseDto = new ResponseDto(
+        SingleTodoResponseDto responseDto = new SingleTodoResponseDto(
                 todo.getId(),
                 todo.getUser().getId(),
                 todo.getTitle(),
                 todo.getContent(),
+                todo.getUser().getManagerName(),
+                todo.getUser().getEmail(),
                 todo.getCreatedAt(),
                 todo.getModifiedAt()
         );
@@ -98,7 +101,9 @@ public class TodoService {
                 todo.getId(),
                 todo.getUser().getId(),
                 todo.getTitle(),
-                todo.getContent()
+                todo.getContent(),
+                todo.getCreatedAt(),
+                todo.getModifiedAt()
         ));
     }
 }

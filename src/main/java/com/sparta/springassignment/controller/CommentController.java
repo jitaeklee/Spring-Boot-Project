@@ -21,18 +21,17 @@ public class CommentController {
         return ResponseEntity.ok(createdDto);
     }
 
-    @GetMapping("/todos/comments/{commentId}")     // 댓글 단건 조회
-    public ResponseEntity<CommentResponseDto> comment(@PathVariable Long commentId) {
-        CommentResponseDto response = commentService.getComment(commentId);
-        return ResponseEntity.ok(response);
-    }
-
     @GetMapping("/todos/{todoId}/comments")     // todoId 할일 댓글 전체조회
     public ResponseEntity<List<CommentResponseDto>> comments(@PathVariable Long todoId) {
         List<CommentResponseDto> dtos = commentService.getcomments(todoId);
         return ResponseEntity.ok(dtos);
     }
 
+    @GetMapping("/todos/comments/{commentId}")     // 댓글 단건 조회
+    public ResponseEntity<CommentResponseDto> comment(@PathVariable Long commentId) {
+        CommentResponseDto response = commentService.getComment(commentId);
+        return ResponseEntity.ok(response);
+    }
     @PutMapping("/todos/comments/{commentId}")    // commentId 댓글 수정
     public ResponseEntity<CommentResponseDto> update
             (@PathVariable Long commentId, @RequestBody CommentRequestDto dto) {
